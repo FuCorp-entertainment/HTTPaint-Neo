@@ -64,18 +64,26 @@
             updateShadow()
         })
 
+        function addcolors() {
+            var LIcolors = prompt('list of colors');
+            for(var x; x < LIcolors.length; x++) {
+                col = LIcolors[x];
+                addcc(col)
+            }
+        }
+
         function updateShadow() {
             changeShadow(shadow)
         }
 
         function myFunc(x) {
             x.style.backgroundColor = color
-                if ((color == 'transparent') | (color !== '')) {
-                    x.style.boxShadow = '';
-                } else {
-                if (shadow == 'black') {$(x).css("box-shadow", '3px 3px 10px black');}
-                if (shadow == 'color') {$(x).css("box-shadow", '3px 3px 10px '+color);}
-                }
+            if (color == 'transparent') {
+                x.style.boxShadow = '';
+            } else {
+            if (shadow == 'black') {$(x).css("box-shadow", '3px 3px 10px black');}
+            if (shadow == 'color') {$(x).css("box-shadow", '3px 3px 10px '+color);}
+            }
         }
         
         function addcc(basecolor) {
