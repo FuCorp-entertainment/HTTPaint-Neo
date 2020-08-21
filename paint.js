@@ -30,13 +30,17 @@
         });
 
         function save() {
-            $('')
+            
         }
 
         function myFunc(x) {
-            x.style.backgroundColor = color;
-            if (shadow == 'black') {$(x).css("box-shadow", '3px 3px 10px black')}
-            if (shadow == 'color') {$(x).css("box-shadow", '3px 3px 10px '+color)}
+            x.style.backgroundColor = color
+                if (color == 'transparent') {
+                    x.style.boxShadow = '';
+                } else {
+                if (shadow == 'black') {$(x).css("box-shadow", '3px 3px 10px black');}
+                if (shadow == 'color') {$(x).css("box-shadow", '3px 3px 10px '+color);}
+                }
         }
         
         function addcc(basecolor) {
@@ -58,9 +62,12 @@
         function draw(element) {
             if (key) {
                 element.style.backgroundColor = color
-                if (shadow == 'black') {$(element).css("box-shadow", '3px 3px 10px black')}
-                if (shadow == 'color') {$(element).css("box-shadow", '3px 3px 10px '+color)}
-                
+                if (color == 'transparent') {
+                    element.style.boxShadow = '';
+                } else {
+                if (shadow == 'black') {$(element).css("box-shadow", '3px 3px 10px black');}
+                if (shadow == 'color') {$(element).css("box-shadow", '3px 3px 10px '+color);}
+                }
             }
         }
 
@@ -121,6 +128,7 @@
                     var elems = document.getElementsByClassName('pixel');
                     for (var i = 0; i < elems.length; i++) {
                         elems[i].style.backgroundColor = "transparent";
+                        elems[i].style.boxShadow = ''
                     
                     }
                 }
@@ -228,7 +236,7 @@
                         var td = tr.insertCell();
                         td.setAttribute("onclick", "myFunc(this)");
                         td.setAttribute("onmouseover", "draw(this)");
-                        td.setAttribute("class", ("pixel "+j+" "+i));
+                        td.setAttribute("class", ("pixel "+j+'-'+i));
                         
 
                     }
