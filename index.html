@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://raw.githubusercontent.com/eligrey/Blob.js/master/Blob.js" type="text/JS"></script>
+    <script src="https://raw.githubusercontent.com/eligrey/Blob.js/master/Blob.js" type="text/js"></script>
     <script src="paint.js" defer></script>
     
     <script src="https://raw.githubusercontent.com/eligrey/FileSaver.js/master/dist/FileSaver.min.js" type="text/JS"></script>
@@ -84,7 +84,14 @@
               <div class="modal-body">
                   <h4>Settings</h4>
                   drawing grid pixel size:<span id="pxs">9</span><sub>px</sub><br>
-                  <input type="range" name="pixelsize" id="ps" min="1" max="40" value="9"> 
+                  <input type="range" name="pixelsize" id="ps" min="1" max="40" value="9">
+                  <form name="shadow">
+                    Shadow: <select name="shadowChoose" id="sc">
+                        <option value="none" selected>None</option>
+                        <option value="black">Black</option>
+                        <option value="color">Color</option>
+                    </select>
+                  </form>
               </div>
             
             </div>

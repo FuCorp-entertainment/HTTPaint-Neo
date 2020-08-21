@@ -13,6 +13,7 @@
             $('.pixel').css('height',size)
             $("#canvas").css('background-size', (size))
         }
+        
 
         var color = "black"; var key = false; var selecteditem = 2
         $('.radio-group .radio').click(function(){
@@ -33,9 +34,43 @@
             
         }
 
+        function changeShadow(shadowNS) {
+            console.log('shadow is '+shadowNS);
+            var shc;
+            var elems = document.getElementsByClassName('pixel');
+                for (var i = 0; i < elems.length; i++) {
+                    if (elems[i].style.backgroundColor !== 'transparent') {
+                    if (shadowNS == 'color') {
+                        shc = $(elems[i]).css('background-color');
+                        $(elems[i]).css('box-shadow', '3px 3px 10px '+shc);
+                        console.log(shc);
+                    }
+                    if (shadowNS == 'black') {
+                        shc = 'black';
+                        $(elems[i]).css('box-shadow', '3px 3px 10px '+shc);
+                        console.log(shc);
+                    }
+                    if (!['black', 'color'].includes(shadowNS)) {
+                        $(elems[i]).css('box-shadow', '');
+                    }
+                    
+                }
+            }
+        }
+
+        $('#sc').change(function(){
+            shadow = $('#sc option:selected').val();
+            console.log('attempted shadowchange '+shadow);
+            updateShadow()
+        })
+
+        function updateShadow() {
+            changeShadow(shadow)
+        }
+
         function myFunc(x) {
             x.style.backgroundColor = color
-                if (color == 'transparent') {
+                if ((color == 'transparent') | (color !== '')) {
                     x.style.boxShadow = '';
                 } else {
                 if (shadow == 'black') {$(x).css("box-shadow", '3px 3px 10px black');}
@@ -236,8 +271,9 @@
                         var td = tr.insertCell();
                         td.setAttribute("onclick", "myFunc(this)");
                         td.setAttribute("onmouseover", "draw(this)");
-                        td.setAttribute("class", ("pixel "+j+'-'+i));
-                        
+                        td.setAttribute("class", "pixel ");
+                        td.setAttribute('id', (i+'-'+j));
+                        td.setAttribute('style', 'background-color: transparent;')
 
                     }
                 }
