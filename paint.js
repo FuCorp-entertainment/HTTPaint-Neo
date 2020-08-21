@@ -2,7 +2,9 @@
 
     
         var size = 9;
-        var shadow = null
+        var shadow = null;
+        var RScolor = '3';
+        var eraser = false;
         
         var colors = 11
         document.getElementById("ps").addEventListener("change", pxsize, false);
@@ -30,8 +32,68 @@
             color = val
         });
 
-        function save() {
+        // download html stuff
+        document.getElementById('dld').onclick = function(){
+            var canva = document.getElementById('tb');
+            var data = canva.innerHTML;
+            download(prompt('filename')+'.xhtml', data)
             
+        };
+
+        function download(filename, text) {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+          
+            element.style.display = 'none';
+            document.body.appendChild(element);
+          
+            element.click();
+          
+            document.body.removeChild(element);
+          }
+
+        
+    document.getElementById('file').addEventListener('change', readFile, false);
+
+    function readFile (evt) {
+        var files = evt.target.files;
+        var file = files[0];           
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            console.log("Loaded: "+event.target.result);
+            document.getElementById('tb').innerHTML = event.target.result;          
+        }
+        reader.readAsText(file)
+    }
+
+        function E_on() {
+            RScolor = $('.selected').attr('id');
+            selectItem('0')
+            console.log("rsc = "+RScolor);
+        }
+
+        function E_of() {
+            selectItem(RScolor)
+        }
+
+        function E_tg() {
+            if (!eraser) {
+                eraser = true;
+                E_on();
+            } else {E_of(); eraser = false}
+        }
+
+        function selectItem(selecteditem) {
+            document.getElementsByClassName("selected")[0].classList.remove('selected');
+                document.getElementById(selecteditem).classList.add('selected');
+                if ($('#'+selecteditem).attr("val") == "CUSTOM") {
+                    color = document.getElementById('customColor'+selecteditem).value;
+                    console.log(color+" is the color");
+                } else {
+                    color = $('#'+selecteditem).attr("val");
+                    console.log(color+" is the color");
+                }
         }
 
         function changeShadow(shadowNS) {
@@ -257,10 +319,12 @@
             if (e.code == "KeyD") {
                 addcc("#bfbfbf");
             }
+            if (e.code == "Space") {E_tg()}
         })
         
 
         function tableCreate(h, w){
+            
             var div = document.createElement("div");
             div.classList.add("canvasbox", "fleft");
             div.id = "tb";
@@ -291,21 +355,24 @@
             $(".pixel").css({"width": size, "height": size});
             
             return true;
+            
         }
 
         function newCanvas() {
             var input = prompt("Canvas Size (width, height)").replace(" ", "").split(",");
             var valid = input.every(function(e) {return Boolean(Number(e))})
-            if (input.length == 2 && valid) {
+            if ((input.length == 2 && valid) && ((input[0]+input[1])<= 600)) {
+                
                 document.getElementById("canvas").remove();
                 if (tableCreate(Number(input[0]), Number(input[1]))) {
                     document.getElementById("canvas")[0].remove();
                 } else {
-                    alert("Oops, something went wrong!")
+                    alert("Oops, something went wrong! code: E-1")
                 }
             } else {
-                alert("Oops, something went wrong!")
+                alert("Too big of a canvas to generate, choose values less than 300, or maybe somthing else :p");
             }
+        
         }
         tableCreate(50, 50)
    

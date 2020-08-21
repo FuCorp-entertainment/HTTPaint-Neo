@@ -4,11 +4,12 @@ pixel spec (id) = "(row)-(column)"
 
 ## Roadmap
 
--   [ ] Add export as PNG or HTML 
+-   [x] add export as PNG or HTML 
 -   [ ] add RMB tool menu
--   [ ] Add bucket fill (color replace) tool as a right-click tool option
+-   [ ] add removeable custom colors (checkbox?)
+-   [ ] add bucket fill (color replace) tool as a right-click tool option
 -   [ ] add HTML import
--   [ ] add PNG import
+-   [ ] add PNG import/export
 -   [ ] add 'Brushes'
 -   [ ] add shapes
 

@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://raw.githubusercontent.com/eligrey/Blob.js/master/Blob.js" type="text/js"></script>
+    <script src="https://raw.githubusercontent.com/rndme/download/master/download.js" type="text/js"></script>
     <script src="paint.js" defer></script>
     
     <script src="https://raw.githubusercontent.com/eligrey/FileSaver.js/master/dist/FileSaver.min.js" type="text/JS"></script>
@@ -16,28 +17,32 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../static/bootstrap-4.3.1-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="paint.css">
+    <meta name="description" content="A simple pixel-painting program just for fun - LOTS of new features coming | Black lives DO Matter">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
 </head>
 <body>
     <form name="colors" class="colors">
         <ul class="radio-group" id="colorSelect">
             <li id="0" val="transparent" class="radio cp" style="background-image: url('null.png');"><span>Erase</span></li>
             <li id="1" val="white" class="radio cp" style="background-color: white;"><span>White</span></li>
-            <li id="2" val="black" class="radio selected cp" style="background-color: black; color: white;"><span>Black</span></li>
-            <li id="3" val="brown" class="radio cp" style="background-color: brown; color: white;"><span>Brown</span></li>
-            <li id="4" val="red" class="radio cp" style="background-color: red;"><span>Red</span></li>
-            <li id="5" val="orange" class="radio cp" style="background-color: orange;"><span>Orange</span></li>
-            <li id="6" val="yellow" class="radio cp" style="background-color: yellow;"><span>Yellow</span></li>
-            <li id="7" val="green" class="radio cp" style="background-color: green;"><span>Green</span></li>
-            <li id="8" val="blue" class="radio cp" style="background-color: blue;"><span>Blue</span></li>
-            <li id="9" val="indigo" class="radio cp" style="background-color: indigo; color: white;"><span>Indigo</span></li>
-            <li id="10" val="violet" class="radio cp" style="background-color: violet;"><span>Violet</span></li>
-            <li id="11" val="grey" class="radio cp" style="background-color: grey;"><span>Grey</span></li>
+            <li id="2" val="grey" class="radio cp" style="background-color: grey;"><span>Grey</span></li>
+            <li id="3" val="black" class="radio selected cp" style="background-color: black; color: white;"><span>Black</span></li>
+            <li id="4" val="brown" class="radio cp" style="background-color: brown; color: white;"><span>Brown</span></li>
+            <li id="5" val="red" class="radio cp" style="background-color: red;"><span>Red</span></li>
+            <li id="6" val="orange" class="radio cp" style="background-color: orange;"><span>Orange</span></li>
+            <li id="7" val="yellow" class="radio cp" style="background-color: yellow;"><span>Yellow</span></li>
+            <li id="8" val="green" class="radio cp" style="background-color: green;"><span>Green</span></li>
+            <li id="9" val="blue" class="radio cp" style="background-color: blue;"><span>Blue</span></li>
+            <li id="10" val="indigo" class="radio cp" style="background-color: indigo; color: white;"><span>Indigo</span></li>
+            <li id="11" val="violet" class="radio cp" style="background-color: violet;"><span>Violet</span></li>
+            
             <!-- remove this when custom color adding done<li id="11" val="CUSTOM" class="radio" style="background-color: #bfbfbf; color: white;" id="customColor"><span><input type="color" name="picker" id="picker" value="#bfbfbf" class="picker"></span></li>-->
         </ul>
         <br> 
     </form>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="position: fixed; bottom: 0px; left: 0px; background-color: whitesmoke;" id="settingsb"><img id="cog" style="background-color: transparent;" src="cog.svg" alt=""></button>
-
+    <button class="btn btn-primary" style="position: fixed; bottom: 60px; left: 0px; background-color: whitesmoke;" id="dld"><img src="dld.png" alt="" style=" width: 48px; height: 48px;"></button>
+    <input type="file" class="btn btn-primary" style="position: fixed; bottom: 120px; left: 0px; background-color: whitesmoke; width: 74px; height: 62px;" id="file"><img src="load.svg" alt="" style=" width: 70px; height: 48px; position: fixed; bottom: 125px; left: 3px; background-color: whitesmoke; pointer-events: none;">
     <div class="container" id="menu">
       
         <!-- The Modal -->
@@ -75,17 +80,21 @@
                     <br>
                     <dt class="col-sm-3"><kbd>d</kbd></dt>
                     <dd class="col-sm-9">Add a custom color</dd>
+
+                    <dt class="col-sm-3"><kbd>space</kbd></dt>
+                    <dd class="col-sm-9">Toggle erase mode</dd>
                   </dl>
               </div>
               <div class="modal-header">
                 
-                <p>There are 11 colors, the 11<sup>th</sup> color is a HTML5 color picker that you can select any color you prefer with. <br>
-                Tip: make sure you properly specify values when making a new drawing grid</p>
+                <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
               </div>
               <div class="modal-body">
                   <h4>Settings</h4>
-                  drawing grid pixel size:<span id="pxs">9</span><sub>px</sub><br>
-                  <input type="range" name="pixelsize" id="ps" min="1" max="40" value="9">
+                  Drawing grid pixel size:<span id="pxs">9</span><sub>px</sub><br>
+                  <input type="range" name="pixelsize" id="ps" min="1" max="40" value="9"><br>
+                  Pixel "roundness": <span id="rnv">0</span>% <br>
+                  <input type="range" name="roundness" id="rn" min="0" max="100" value="0">
                   <form name="shadow">
                     Shadow: <select name="shadowChoose" id="sc">
                         <option value="none" selected>None</option>
@@ -93,7 +102,6 @@
                         <option value="color">Color</option>
                     </select>
                   </form>
-                  <button onclick="addcolors()"></button>
               </div>
             
             </div>
