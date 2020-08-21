@@ -1,8 +1,9 @@
     
 
     
-        var size;
-        size = 9;
+        var size = 9;
+        var shadow = null
+        
         var colors = 10
         document.getElementById("ps").addEventListener("change", pxsize, false);
         function pxsize(event) {
@@ -10,6 +11,7 @@
             document.getElementById("pxs").innerText = size;
             $('.pixel').css('width',size)
             $('.pixel').css('height',size)
+            $("#canvas").css('background-size', (size))
         }
 
         var color = "black"; var key = false; var selecteditem = 2
@@ -33,6 +35,8 @@
 
         function myFunc(x) {
             x.style.backgroundColor = color;
+            if (shadow == 'black') {$(x).css("box-shadow", '3px 3px 10px black')}
+            if (shadow == 'color') {$(x).css("box-shadow", '3px 3px 10px '+color)}
         }
         
         function addcc(basecolor) {
@@ -54,6 +58,9 @@
         function draw(element) {
             if (key) {
                 element.style.backgroundColor = color
+                if (shadow == 'black') {$(element).css("box-shadow", '3px 3px 10px black')}
+                if (shadow == 'color') {$(element).css("box-shadow", '3px 3px 10px '+color)}
+                
             }
         }
 
@@ -183,6 +190,7 @@
                 document.getElementById("pxs").innerText = size;
                 $('.pixel').css('width',size);
                 $('.pixel').css('height',size);
+                $("#canvas").css('background-size', (size))
             }
             if (["KeyX", "Minus"].includes(e.code)){
                 size--;
@@ -193,6 +201,7 @@
                 document.getElementById("pxs").innerText = size;
                 $('.pixel').css('width',size);
                 $('.pixel').css('height',size);
+                $("#canvas").css('background-size', (size))
             }
             if (e.code == "KeyD") {
                 addcc("#bfbfbf");
@@ -203,6 +212,7 @@
         function tableCreate(h, w){
             var div = document.createElement("div");
             div.classList.add("canvasbox", "fleft");
+            div.id = "tb";
             var body = document.body,
                 tbl  = document.createElement('table');
             tbl.setAttribute("class", "SIZED border");
