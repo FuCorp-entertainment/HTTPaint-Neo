@@ -1,7 +1,5 @@
 # HTTPaint
 
-pixel spec (id) = "(row)-(column)"
-
 ## Roadmap
 
 -   [x] add export as PNG or HTML 
@@ -14,3 +12,7 @@ pixel spec (id) = "(row)-(column)"
 -   [ ] add shapes
 
 ​	
+
+### Docs
+
+pixel spec (id): "(row)-(column)"
