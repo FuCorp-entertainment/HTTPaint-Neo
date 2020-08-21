@@ -36,8 +36,10 @@
         document.getElementById('dld').onclick = function(){
             var canva = document.getElementById('tb');
             var data = canva.innerHTML;
-            download(prompt('filename')+'.xhtml', data)
-            
+            var fn = prompt('filename')
+            if (fn) {
+            download(fn+'.html', data)
+            } else {break}
         };
 
         function download(filename, text) {
