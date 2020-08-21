@@ -4,7 +4,7 @@
         var size = 9;
         var shadow = null
         
-        var colors = 10
+        var colors = 11
         document.getElementById("ps").addEventListener("change", pxsize, false);
         function pxsize(event) {
             size = event.target.value;
