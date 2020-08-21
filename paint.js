@@ -39,7 +39,7 @@
             var fn = prompt('filename')
             if (fn) {
             download(fn+'.html', data)
-            } else {break}
+            } else {}
         };
 
         function download(filename, text) {
