@@ -1,0 +1,76 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+body {
+    background-color: grey;
+}
+.border td {
+    border: 0px solid rgb(80, 80, 80);
+    cursor: move;
+}
+table {
+    background-image: url("null.png");
+    background-size: 27px;
+}
+.border {
+    border: 2px solid black;
+}
+table.SIZED td {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    margin: 0;
+    border-collapse: collapse;
+}
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+ul li {
+    border: 1px solid black;
+    width: 150px;
+}
+ul li.cp span {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+ul li.cp span::before {
+    content: "- ";
+}
+.colors {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.fleft {
+    position: absolute;
+    right: 0px;
+    
+}
+.colors ul li.cp .picker {
+    width: 120px;
+    height: fit-content;
+}
+.selected {
+    width: 175px;
+}
+.radio {
+    cursor: pointer;
+    transition: 0.3s;
+    height: 30px;
+}
+.ex {width: 175px;}
+.radio-group li button {
+    width: 150px;
+}
+#pxs::before {
+    content: " ";
+}
+#canvas {
+    z-index: 100;
+}
+.canvasbox {
+    border: 4px solid black;
+    height: fit-content;
+    width: fit-content;
+}

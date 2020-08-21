@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTPS-Paint</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://raw.githubusercontent.com/eligrey/Blob.js/master/Blob.js" type="text/JS"></script>
+    <script src="paint.js" defer></script>
+    
+    <script src="https://raw.githubusercontent.com/eligrey/FileSaver.js/master/dist/FileSaver.min.js" type="text/JS"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../static/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="paint.css">
+</head>
+<body>
+    <form name="colors" class="colors">
+        <ul class="radio-group" id="colorSelect">
+            <li id="0" val="transparent" class="radio cp" style="background-image: url('null.png');"><span>Erase</span></li>
+            <li id="1" val="white" class="radio cp" style="background-color: white;"><span>White</span></li>
+            <li id="2" val="black" class="radio selected cp" style="background-color: black; color: white;"><span>Black</span></li>
+            <li id="3" val="brown" class="radio cp" style="background-color: brown; color: white;"><span>Brown</span></li>
+            <li id="4" val="red" class="radio cp" style="background-color: red;"><span>Red</span></li>
+            <li id="5" val="orange" class="radio cp" style="background-color: orange;"><span>Orange</span></li>
+            <li id="6" val="yellow" class="radio cp" style="background-color: yellow;"><span>Yellow</span></li>
+            <li id="7" val="green" class="radio cp" style="background-color: green;"><span>Green</span></li>
+            <li id="8" val="blue" class="radio cp" style="background-color: blue;"><span>Blue</span></li>
+            <li id="9" val="indigo" class="radio cp" style="background-color: indigo; color: white;"><span>Indigo</span></li>
+            <li id="10" val="violet" class="radio cp" style="background-color: violet;"><span>Violet</span></li>
+            <!-- remove this when custom color adding done<li id="11" val="CUSTOM" class="radio" style="background-color: #bfbfbf; color: white;" id="customColor"><span><input type="color" name="picker" id="picker" value="#bfbfbf" class="picker"></span></li>-->
+        </ul>
+        <br> 
+    </form>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="position: fixed; bottom: 0px; left: 0px; background-color: gray;"><img style="background-color: gray;" src="cog.svg" alt=""></button>
+
+    <div class="container" id="menu">
+      
+        <!-- The Modal -->
+        <div class="modal fade" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Info</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              
+              <!-- Modal body -->
+              <div class="modal-body">
+                  <h5>Shortcuts</h5>
+                  <dl class="row">
+                    <dt class="col-sm-3"><kbd>w</kbd> / <kbd>s</kbd></dt>
+                    <dd class="col-sm-9">- Cycle colors</dd>
+
+                    <dt class="col-sm-3"><kbd>c</kbd></dt>
+                    <dd class="col-sm-9">Make a new canvas, size parameters are defined as <code>&lt;width&gt;, &lt;height&gt;</code></dd>
+                    
+                    <dt class="col-sm-3"><kbd>q</kbd></dt>
+                    <dd class="col-sm-9">Show grid lines</dd>
+
+                    <dt class="col-sm-3"><kbd>e</kbd></dt>
+                    <dd class="col-sm-9">Erase grid</dd>
+
+                    <dt class="col-sm-3"><kbd>shift</kbd>/<cite title="Right Mouse Button (click/drag)"><kbd>RMB</kbd></cite></dt>
+                    <dd class="col-sm-9">Draw freely with the cursor (<kbd>shift</kbd> to help trackpad users)</dd>
+
+                    <dt class="col-sm-4"><kbd>z</kbd>/<kbd>x</kbd> or <kbd>-</kbd>/<kbd>+</kbd></dt>
+                    <dd class="col-sm-8">Increase/decrease pixel size</dd>
+                    <br>
+                    <dt class="col-sm-3"><kbd>d</kbd></dt>
+                    <dd class="col-sm-9">Add a custom color</dd>
+                  </dl>
+              </div>
+              <div class="modal-header">
+                
+                <p>There are 11 colors, the 11<sup>th</sup> color is a HTML5 color picker that you can select any color you prefer with. <br>
+                Tip: make sure you properly specify values when making a new drawing grid</p>
+              </div>
+              <div class="modal-body">
+                  <h4>Settings</h4>
+                  drawing grid pixel size:<span id="pxs">9</span><sub>px</sub><br>
+                  <input type="range" name="pixelsize" id="ps" min="1" max="40" value="9"> 
+              </div>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+      
+</body>
+</html>
