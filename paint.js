@@ -365,7 +365,7 @@
         function newCanvas() {
             var input = prompt("Canvas Size (width, height)").replace(" ", "").split(",");
             var valid = input.every(function(e) {return Boolean(Number(e))})
-            if ((input.length == 2 && valid) && ((input[0]+input[1])<= 600)) {
+            if ((input.length == 2 && valid) && ((Number(input[0])+Number(input[1]))< 601)) {
                 
                 document.getElementById("canvas").remove();
                 if (tableCreate(Number(input[0]), Number(input[1]))) {
