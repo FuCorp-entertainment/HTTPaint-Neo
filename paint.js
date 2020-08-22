@@ -3,7 +3,7 @@
     
         var size = 9;
         var shadow = null;
-        var RScolor = '3';
+        var RScolor = '4';
         var eraser = false;
         
         var colors = 11
@@ -41,6 +41,8 @@
             download(fn+'.html', data)
             } else {}
         };
+
+        $('button').focus(function() {this.blur()})
 
         function download(filename, text) {
             var element = document.createElement('a');
