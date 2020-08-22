@@ -1,19 +1,19 @@
 # HTTPaint-Neo
 
+HTTPaint is a minimal pixel art making program and painting tool.
+I hope to add MANY more features soon!
+
 ## Roadmap
 
-
--   [ ] add RMB tool menu
--   [ ] add removeable custom colors (checkbox?)
--   [ ] add bucket fill (color replace) tool as a right-click tool option
-
+-   [ ] integrate canvas
+-   [ ] add LMB tool menu
+-   [ ] add removable custom colors (checkbox?)
+-   [ ] add bucket fill (color replace) tool as a tool option
 -   [ ] add PNG import/export
 -   [ ] add 'Brushes'
 -   [ ] add shapes
--   [ ] add CANVAS 
 
-​	
 
-### Docs
+## Docs
 
 pixel spec (id): "(row)-(column)"
