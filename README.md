@@ -12,7 +12,7 @@ I hope to add MANY more features soon!
 -   [ ] add PNG import/export
 -   [ ] add 'Brushes'
 -   [ ] add shapes
-
+-   [ ] add embeddable html element embed 
 
 ## Docs
 
