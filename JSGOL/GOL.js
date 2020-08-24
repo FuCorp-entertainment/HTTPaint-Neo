@@ -53,15 +53,18 @@
     function togl(elem) {$(elem).toggleClass('live'); $(elem).toggleClass('dead');}
 
     $('.cell').click(function(){togl(this)})
-    $('.cell').hover(function() {$('#coords').ser})
+    $('.cell').hover(function() {$('#coords').text(this.id.replace('-', ', '))})
 
     function getSurroundingCount(cellID) {
-        var count = 0;
+        var count = 0, debug = 0;
         var tcc = toCoords(cellID.toString());
         var xtop = (tcc.x+1), ytop = (tcc.y+1);
         for(var x = (tcc.x-1); x<=xtop; x++) {
             for(var y = (tcc.y-1); y<=ytop; y++) {
+                if ((x != tcc.y) && (y != tcc.y)){
                 if (queryState(x,y)==true){count++} else {}
+                debug++
+                }
             }
         }
         return count
@@ -69,7 +72,7 @@
 
 
     function step() {
-        var buffer = new Array(width).fill(new Array(height).fill(false));
+        var buffer = new Array(width).fill(new Array(height).fill(null));
         $('.cell').each(function() {
             var neighbors = getSurroundingCount(this.id);
             var live = (this.classList.contains('live')); 
@@ -83,14 +86,15 @@
                     buffer[tc.x][tc.y] = result;
                     console.log(`buffered calculated state of ${tc.x}, ${tc.y} as ${result} with ${neighbors} neighbors`);
                     
-                } else {result = false; console.log(`buffered calculated state of ${tc.x}, ${tc.y} as ${result} with ${neighbors} neighbors`);}
+                } else {result = false; console.log(`buffered calculated state of ${tc.x}, ${tc.y} as ${result} with ${neighbors} neighbors`); buffer[tc.x][tc.y] = result;}
                 
-            } else {
+            }
+            if (live==false) {
                 if (neighbors == 3) {
                     result = true
                     buffer[tc.x][tc.y] = result;
                     console.log(`buffered calculated state of ${tc.x}, ${tc.y} as ${result} with ${neighbors} neighbors`);
-                } else {result = false; console.log(`buffered calculated state of ${tc.x}, ${tc.y} as ${result} with ${neighbors} neighbors`);}
+                } else {result = false; console.log(`buffered calculated state of ${tc.x}, ${tc.y} as ${result} with ${neighbors} neighbors`); buffer[tc.x][tc.y] = result;}
                 
             }
             
@@ -106,9 +110,11 @@
                 console.log(`ID is ${id(x,y)}`);
                 var state = row[y], cell = $('#'+id(x,y))
                 console.log('debuffered ['+x+', '+y+'] as '+state);
-                if (state) {
+                if (state == true) {
+                    console.log(`the result of ${x}, ${y} is 'live'`);
                     live(cell);
                 } else {
+                    console.log(`the result of ${x}, ${y} is 'dead'`);
                     kill(cell);
                 }
             }
