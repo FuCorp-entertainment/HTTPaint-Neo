@@ -8,14 +8,13 @@
         var key = false; 
         var selecteditem = 2
         var colors = 11
+        var canvasWidth;
+        var canvasHeight;
         document.getElementById("ps").addEventListener("change", pxsize, false);
         function pxsize(event) {
             size = event.target.value;
             document.getElementById("pxs").innerText = size;
-            // Need to revamp for canvas
-            $('.pixel').css('width',size)
-            $('.pixel').css('height',size)
-            $("#canvasbox").css('background-size', (size))
+            $('#canvas').css({'width': canvasWidth*size, 'height': canvasHeight*size})
         }
         
 
@@ -167,21 +166,8 @@
         var border = false;
         $(this).keypress((e) => {
             if (e.code == "KeyQ"){
-                if (!border) {
-                    var elems = document.getElementsByClassName('pixel');
-                    for (var i = 0; i < elems.length; i++) {
-                        elems[i].style.borderWidth = "1px";
-                    }
-                    border = true;
-                } else {
-                    var elems = document.getElementsByClassName('pixel');
-                    for (var i = 0; i < elems.length; i++) {
-                        elems[i].style.borderWidth = "0px";
-                    }
-                    border = false;
-                }
-                
-            }
+                // Make Overlay
+            };
             
             if (e.code == "KeyC"){
                 if (confirm("Make a new drawing grid?")) {
@@ -262,9 +248,8 @@
             if (["KeyZ", "Equal"].includes(e.code)){
                 size++;
                 document.getElementById("pxs").innerText = size;
-                $('.pixel').css('width',size);
-                $('.pixel').css('height',size);
-                $("#canvas").css('background-size', (size))
+                $('#canvas').css({'width': canvasWidth*size, 'height': canvasHeight*size})
+                $("#grid").css('background-size', (size))
             }
             if (["KeyX", "Minus"].includes(e.code)){
                 size--;
@@ -273,9 +258,8 @@
                 }
                 
                 document.getElementById("pxs").innerText = size;
-                $('.pixel').css('width',size);
-                $('.pixel').css('height',size);
-                $("#canvas").css('background-size', (size))
+                $('#canvas').css({'width': canvasWidth*size, 'height': canvasHeight*size})
+                $("#grid").css('background-size', (size))
             }
             if (e.code == "KeyD") {
                 addcc("#bfbfbf");
@@ -326,17 +310,21 @@
         }
 
         function tableCreate(h, w){
-            
+            canvasWidth = w;
+            canvasHeight = h
             var div = document.createElement("div");
             div.classList.add("canvasbox", "fleft");
             div.id = "tb";
+            var grid = document.createElement('div')
             var body = document.body,
                 tbl  = document.createElement('canvas');
             tbl.setAttribute("class", "SIZED border");
             tbl.setAttribute("id", "canvas");
             tbl.setAttribute('width', w);
             tbl.setAttribute('height', h);
-            div.appendChild(tbl);
+            $(tbl).css({'width': canvasWidth*size, 'height': canvasHeight*size});
+            grid.appendChild(tbl)
+            div.appendChild(grid);
             body.appendChild(div)
 
             
@@ -347,7 +335,7 @@
         function newCanvas() {
             var input = prompt("Canvas Size (width, height)").replace(" ", "").split(",");
             var valid = input.every(function(e) {return Boolean(Number(e))})
-            if ((input.length == 2 && valid) && ((Number(input[0])+Number(input[1]))< 3000)) {
+            if ((input.length == 2 && valid) && ((Number(input[0])+Number(input[1]))< 3000000)) {
                 document.getElementById("canvas").remove();
                 if (tableCreate(Number(input[0]), Number(input[1]))) {
                     document.getElementById("tb")[0].remove();
@@ -355,10 +343,23 @@
                     alert("Oops, something went wrong! code: E-1")
                 }
             } else {
-                alert("Too big of a canvas to generate, choose values less than 300, or maybe somthing else :p");
+                alert("Too big of a canvas to generate, choose values summing to less than 30000000, or maybe somthing else :p");
             }
         
         }
         tableCreate(50, 50)
+
+
+
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        ctx.enableimageSmoothing = false;
+        var img = new Image();
+        
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0)
+        }
+        img.src = "favicon.png";
+        var imgdat = ctx.getImageData(0,0,30,30)
    
         

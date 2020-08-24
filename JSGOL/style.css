@@ -1,12 +1,11 @@
-td {
+.cell {
     border: 1px solid grey;
     width: 5px;
     height: 5px;
-  }
-  .live {
-    background-color: white;
-  }
-  .dead {
-    background-color: black;
-  }
-  
+}
+.live {
+background-color: white;
+}
+.dead {
+background-color: black;
+}
