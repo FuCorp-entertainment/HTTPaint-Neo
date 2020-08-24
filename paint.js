@@ -2,22 +2,24 @@
 
     
         var size = 9;
-        var shadow = null;
         var RScolor = '4';
         var eraser = false;
-        
+        var color = "black"; 
+        var key = false; 
+        var selecteditem = 2
         var colors = 11
         document.getElementById("ps").addEventListener("change", pxsize, false);
         function pxsize(event) {
             size = event.target.value;
             document.getElementById("pxs").innerText = size;
+            // Need to revamp for canvas
             $('.pixel').css('width',size)
             $('.pixel').css('height',size)
-            $("#canvas").css('background-size', (size))
+            $("#canvasbox").css('background-size', (size))
         }
         
 
-        var color = "black"; var key = false; var selecteditem = 2
+        
         $('.radio-group .radio').click(function(){
             $(this).parent().find('.radio').removeClass('selected');
             $(this).addClass('selected');
@@ -34,8 +36,8 @@
 
         // download html stuff
         document.getElementById('dld').onclick = function(){
-            var canva = document.getElementById('tb');
-            var data = canva.innerHTML;
+            var canva = document.getElementById('canvas');
+            var data = canva.getImageData;
             var fn = prompt('filename')
             if (fn) {
             download(fn+'.html', data)
@@ -100,46 +102,13 @@
                 }
         }
 
-        function changeShadow(shadowNS) {
-            console.log('shadow is '+shadowNS);
-            var shc;
-            var elems = document.getElementsByClassName('pixel');
-                for (var i = 0; i < elems.length; i++) {
-                    if (elems[i].style.backgroundColor !== 'transparent') {
-                    if (shadowNS == 'color') {
-                        shc = $(elems[i]).css('background-color');
-                        $(elems[i]).css('box-shadow', '3px 3px 10px '+shc);
-                        console.log(shc);
-                    }
-                    if (shadowNS == 'black') {
-                        shc = 'black';
-                        $(elems[i]).css('box-shadow', '3px 3px 10px '+shc);
-                        console.log(shc);
-                    }
-                    if (!['black', 'color'].includes(shadowNS)) {
-                        $(elems[i]).css('box-shadow', '');
-                    }
-                    
-                }
-            }
-        }
-
-        $('#sc').change(function(){
-            shadow = $('#sc option:selected').val();
-            console.log('attempted shadowchange '+shadow);
-            updateShadow()
-        })
 
         function addcolors() {
-            var LIcolors = prompt('list of colors');
+            var LIcolors = Array(prompt('list of colors'));
             for(var x; x < LIcolors.length; x++) {
                 col = LIcolors[x];
                 addcc(col)
             }
-        }
-
-        function updateShadow() {
-            changeShadow(shadow)
         }
 
         function myFunc(x) {
@@ -166,18 +135,6 @@
             $(event.target).parent().parent().find('.radio').removeClass('selected');
             $(event.target).parent().addClass('selected');
             $(event.target).find('li').css('background-color', 'color');
-        }
-
-        function draw(element) {
-            if (key) {
-                element.style.backgroundColor = color
-                if (color == 'transparent') {
-                    element.style.boxShadow = '';
-                } else {
-                if (shadow == 'black') {$(element).css("box-shadow", '3px 3px 10px black');}
-                if (shadow == 'color') {$(element).css("box-shadow", '3px 3px 10px '+color);}
-                }
-            }
         }
 
         $(this).keydown((e) => {
@@ -325,7 +282,48 @@
             }
             if (e.code == "Space") {E_tg()}
         })
+
+        function colorReplace(context, target, result) {
+            // pull the entire image into an array of pixel data
+            canvas = document.getElementById('canvas');
+            var h = canvas.height, w = canvas.width;
+            var imageData = context.getImageData(0, 0, w, h);
+
+            // examine every pixel, 
+            // change any old rgb to the new-rgb
+            for (var i=0;i<imageData.data.length;i+=4)
+            {
+                // is this pixel the old rgb?
+                if(imageData.data[i]==target.r &&
+                    imageData.data[i+1]==target.g &&
+                    imageData.data[i+2]==target.b
+                ){
+                    // change to your new rgb
+                    imageData.data[i]=result.r;
+                    imageData.data[i+1]=result.g;
+                    imageData.data[i+2]=result.b;
+                }
+            }
+            // put the altered data back on the canvas  
+            context.putImageData(imageData,0,0);
+        }
         
+        function hexToRgb(hex) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+              r: parseInt(result[1], 16),
+              g: parseInt(result[2], 16),
+              b: parseInt(result[3], 16)
+            } : null;
+          }
+        function componentToHex(c) {
+            var hex = c.toString(16);
+            return hex.length == 1 ? "0" + hex : hex;
+        }
+        
+        function rgbToHex(r, g, b) {
+            return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+        }
 
         function tableCreate(h, w){
             
@@ -333,30 +331,14 @@
             div.classList.add("canvasbox", "fleft");
             div.id = "tb";
             var body = document.body,
-                tbl  = document.createElement('table');
+                tbl  = document.createElement('canvas');
             tbl.setAttribute("class", "SIZED border");
-            tbl.setAttribute("cellspacing", "0");
-            tbl.setAttribute("rowspacing", "0");
             tbl.setAttribute("id", "canvas");
-            for(var i = 0; i < h; i++){
-                var tr = tbl.insertRow();
-                for(var j = 0; j < w; j++){
-                    if(i == w && j == 1){
-                        break;
-                    } else {
-                        var td = tr.insertCell();
-                        td.setAttribute("onclick", "myFunc(this)");
-                        td.setAttribute("onmouseover", "draw(this)");
-                        td.setAttribute("class", "pixel ");
-                        td.setAttribute('id', (i+'-'+j));
-                        td.setAttribute('style', 'background-color: transparent;')
-
-                    }
-                }
-            }
+            tbl.setAttribute('width', w);
+            tbl.setAttribute('height', h);
             div.appendChild(tbl);
             body.appendChild(div)
-            $(".pixel").css({"width": size, "height": size});
+
             
             return true;
             
@@ -365,11 +347,10 @@
         function newCanvas() {
             var input = prompt("Canvas Size (width, height)").replace(" ", "").split(",");
             var valid = input.every(function(e) {return Boolean(Number(e))})
-            if ((input.length == 2 && valid) && ((Number(input[0])+Number(input[1]))< 601)) {
-                
+            if ((input.length == 2 && valid) && ((Number(input[0])+Number(input[1]))< 3000)) {
                 document.getElementById("canvas").remove();
                 if (tableCreate(Number(input[0]), Number(input[1]))) {
-                    document.getElementById("canvas")[0].remove();
+                    document.getElementById("tb")[0].remove();
                 } else {
                     alert("Oops, something went wrong! code: E-1")
                 }
